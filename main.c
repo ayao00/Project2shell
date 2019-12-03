@@ -29,6 +29,12 @@ int main(int argc, char * argv[]){
   }else{
     s = argv[1];
   }
+  f = fork();
+  if(f){
+    printf("parent. pid: %d f: %d parent :%d\n", getpid(), f, getppid());
+  }else{
+    printf("child. pid: %d f: %d parent :%d\n", getpid(), f, getppid());
+  }
   char ** args = parse_args(s);
   execvp(args[0] , args);
   return 0;
