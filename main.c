@@ -22,6 +22,10 @@ char ** parse_args( char * line ){
 
 int main(int argc, char * argv[]){
   char * s = malloc(256);
+  char * programs = malloc(256);
+  char * line = malloc(256);
+  char * parsed = malloc(256);
+  char * current = malloc(256);
   if(argc <= 1){
     printf("Enter the command line invocation: ");
     fgets(s, 256, stdin);
@@ -29,8 +33,16 @@ int main(int argc, char * argv[]){
   }else{
     s = argv[1];
   }
+  while(1){
+    printf("%s\n",getcwd(current, 256));
+    return 0;
+
+
+  }
+  int f, child,status;
   f = fork();
   if(f){
+    child = wait(&status);
     printf("parent. pid: %d f: %d parent :%d\n", getpid(), f, getppid());
   }else{
     printf("child. pid: %d f: %d parent :%d\n", getpid(), f, getppid());
