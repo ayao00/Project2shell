@@ -37,7 +37,18 @@ int main(){
     fgets(s, 256, stdin);
     s[strlen(s)-1]=0;
     if (strcmp(s,"exit") == 0){
-    return 0;
+      return 0;
+    }
+    else if(strcmp(s,"cd")== 0){
+      printf("%s\n", getenv("USER"));
+    }
+    else{
+      f = fork();
+      if(f){
+        char ** args = parse_args(s);
+        execvp(args[0] , args);
+        child = wait(&status);
+      }
     }
   }
   int f, child,status;
@@ -50,7 +61,5 @@ int main(){
   }else{
     printf("child. pid: %d f: %d parent :%d\n", getpid(), f, getppid());
   }
-  char ** args = parse_args(s);
-  execvp(args[0] , args);
   return 0;
 }
