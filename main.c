@@ -10,8 +10,9 @@
 #include <sys/wait.h>
 
 static void sighandler(int signo){
-
+  printf("Type exit to exit shell. Or type a command u bozo\n");
 }
+
 char ** parse_args( char * line ){
   char ** parsed_args = malloc(256);
   char * current;
