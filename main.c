@@ -7,9 +7,10 @@
 #include <unistd.h>
 #include <time.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 
 static void sighandler(int signo){
-  
+
 }
 char ** parse_args( char * line ){
   char ** parsed_args = malloc(256);
@@ -23,24 +24,20 @@ char ** parse_args( char * line ){
   return parsed_args;
 }
 
-int main(int argc, char * argv[]){
+int main(){
   char * s = malloc(256);
   char * programs = malloc(256);
   char * line = malloc(256);
   char * parsed = malloc(256);
   char * current = malloc(256);
   while(1){
-    printf("%s\n",getcwd(current, 256));
-    if(argc <= 1){
-      printf("Enter the command line invocation: ");
-      fgets(s, 256, stdin);
-      s[strlen(s)-1]=0;
-    }else{
-      s = argv[1];
-    }
-
+    printf("%s",getcwd(current, 256));
+    printf("$ ");
+    fgets(s, 256, stdin);
+    s[strlen(s)-1]=0;
+    if (strcmp(s,"exit") == 0){
     return 0;
-
+    }
   }
   int f, child,status;
   f = fork();
