@@ -31,11 +31,13 @@ int main(){
   char * line = malloc(256);
   char * parsed = malloc(256);
   char * current = malloc(256);
+  int f, child,status;
   while(1){
     printf("%s",getcwd(current, 256));
     printf("$ ");
     fgets(s, 256, stdin);
     s[strlen(s)-1]=0;
+    printf("%s", s);
     if (strcmp(s,"exit") == 0){
       return 0;
     }
@@ -49,9 +51,10 @@ int main(){
         execvp(args[0] , args);
         child = wait(&status);
       }
+      return;
     }
   }
-  int f, child,status;
+
   f = fork();
   if(f){
     char ** args = parse_args(s);
