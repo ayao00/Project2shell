@@ -40,9 +40,10 @@ int main(){
     printf("$ ");
     fgets(s, 256, stdin);
     s[strlen(s)-1]=0;
-    args = parse_args(s, ";");
+    args = parse_args(s, "; ");
     i = 0;
     while(args[i]){
+      printf("%s\n",args[i]);
       programs = parse_args(args[i], " ");
       if(strcmp("exit", programs[0]) == 0){
         return 0;
@@ -58,7 +59,7 @@ int main(){
       else{
         f = fork();
         if(!f){
-          execvp(programs[0], args);
+          execvp(programs[0], programs);
         }else{
           waitpid(f, status, 0);
         }
