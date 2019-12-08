@@ -42,7 +42,7 @@ int main(){
     s[strlen(s)-1]=0;
     args = parse_args(s, ";");
     i = 0;
-    while(args[i]){
+    while(programs[i]){
       printf("%s\n",args[i]);
       programs = parse_args(args[i], " ");
       if(strcmp("exit", programs[0]) == 0){
