@@ -39,11 +39,9 @@ int main(){
     printf("$ ");
     fgets(s, 256, stdin);
     s[strlen(s)-1]=0;
-    printf("%s\n", s);
-
     args = parse_args(s, " ");
-    printf("%s\n", args[0]);
 
+    printf("\n");
     if(strcmp("exit", args[0]) == 0){
       return 0;
     }
