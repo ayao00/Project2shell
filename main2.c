@@ -17,8 +17,7 @@ char ** parse_args( char * line , char * separator){
   char ** parsed_args = malloc(256);
   char * current;
   int i = 0;
-  while(current){
-    current = strsep(&line, separator);
+  while((current = strsep(&line, separator))){
     parsed_args[i] = current;
     i++;
   }
