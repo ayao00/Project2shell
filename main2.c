@@ -38,6 +38,7 @@ int main(){
     printf("$ ");
     fgets(s, 256, stdin);
     s[strlen(s)-1]=0;
+    printf("%s\n", s);
     args = parse_args(s, " ");
     printf("%s\n", s);
     printf("%s\n", args[0]);
@@ -45,7 +46,12 @@ int main(){
       return 0;
     }else if(strcmp("cd",s)== 0){
       printf("in this part\n");
-      chdir("..");
+      if (args[1]){
+        chdir(args[1]);
+      }
+      else{
+        chdir("/usr");
+      }
     }else{
       f = fork();
       if(!f){
