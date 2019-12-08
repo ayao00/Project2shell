@@ -49,7 +49,7 @@ int main(){
         chdir(args[1]);
       }
       else{
-        chdir("/usr");
+        chdir("~");
       }
     }
     else{
