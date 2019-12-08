@@ -39,21 +39,23 @@ int main(){
     printf("$ ");
     fgets(s, 256, stdin);
     s[strlen(s)-1]=0;
-    input = s;
+    printf("%s\n", s);
 
     args = parse_args(s, " ");
-    printf("%s\n", input);
     printf("%s\n", args[0]);
-    if(strncmp("exit",args[0],4) == 0){
+
+    if(strcmp("exit", args[0]) == 0){
       return 0;
-    }else if(strcmp("cd",s)== 0){
+    }
+    else if(strcmp("cd", args[0])== 0){
       if (args[1]){
         chdir(args[1]);
       }
       else{
         chdir("/usr");
       }
-    }else{
+    }
+    else{
       f = fork();
       if(!f){
         execvp(args[0], args);
