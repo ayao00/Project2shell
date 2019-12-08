@@ -41,7 +41,6 @@ int main(){
     s[strlen(s)-1]=0;
     args = parse_args(s, " ");
 
-    printf("\n");
     if(strcmp("exit", args[0]) == 0){
       return 0;
     }
