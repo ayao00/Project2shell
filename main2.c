@@ -32,6 +32,7 @@ int main(){
   char * s = malloc(256);
   char * input = malloc(256);
   char ** args;
+  char ** programs;
   int f;
   int * status;
   while(1){
@@ -48,7 +49,7 @@ int main(){
       return 0;
     }
     else if(strcmp("cd", args[0])== 0){
-      if (args[1]){
+      if(args[1]){
         chdir(args[1]);
       }
       else{
