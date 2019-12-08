@@ -30,6 +30,7 @@ int main(){
   signal(SIGINT,sighandler);
   char * currentdirectory = malloc(256);
   char * s = malloc(256);
+  char * input = malloc(256);
   char ** args;
   int f;
   int * status;
@@ -38,14 +39,14 @@ int main(){
     printf("$ ");
     fgets(s, 256, stdin);
     s[strlen(s)-1]=0;
-    printf("%s\n", s);
+    input = s;
+
     args = parse_args(s, " ");
-    printf("%s\n", s);
+    printf("%s\n", input);
     printf("%s\n", args[0]);
     if(strncmp("exit",args[0],4) == 0){
       return 0;
     }else if(strcmp("cd",s)== 0){
-      printf("in this part\n");
       if (args[1]){
         chdir(args[1]);
       }
@@ -59,7 +60,6 @@ int main(){
       }else{
         waitpid(f, status, 0);
       }
-      printf("failed;\n");
     }
   }
   return 0;
