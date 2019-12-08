@@ -43,7 +43,7 @@ int main(){
     printf("%s\n", args[0]);
     if(strncmp("exit",args[0],4) == 0){
       return 0;
-    }else if(strncmp("cd",s)== 0){
+    }else if(strcmp("cd",s)== 0){
       printf("in this part\n");
       chdir("..");
     }else{
