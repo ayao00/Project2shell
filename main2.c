@@ -30,36 +30,40 @@ int main(){
   signal(SIGINT,sighandler);
   char * currentdirectory = malloc(256);
   char * s = malloc(256);
-  char * input = malloc(256);
   char ** args;
   char ** programs;
   int f;
   int * status;
+  int i;
   while(1){
     printf("%s",getcwd(currentdirectory, 256));
     printf("$ ");
     fgets(s, 256, stdin);
     s[strlen(s)-1]=0;
-    args = parse_args(s, " ");
-
-    if(strcmp("exit", args[0]) == 0){
-      return 0;
-    }
-    else if(strcmp("cd", args[0])== 0){
-      if(args[1]){
-        chdir(args[1]);
+    args = parse_args(s, ";");
+    i = 0;
+    while(args[i]){
+      programs = parse_args(args[i], " ");
+      if(strcmp("exit", programs[0]) == 0){
+        return 0;
+      }
+      else if(strcmp("cd", programs[0])== 0){
+        if(programs[1]){
+          chdir(programs[1]);
+        }
+        else{
+          chdir("~");
+        }
       }
       else{
-        chdir("~");
+        f = fork();
+        if(!f){
+          execvp(programs[0], args);
+        }else{
+          waitpid(f, status, 0);
+        }
       }
-    }
-    else{
-      f = fork();
-      if(!f){
-        execvp(args[0], args);
-      }else{
-        waitpid(f, status, 0);
-      }
+      i++;
     }
   }
   return 0;
