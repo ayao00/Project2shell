@@ -40,9 +40,9 @@ int main(){
     printf("$ ");
     fgets(s, 256, stdin);
     s[strlen(s)-1]=0;
-    args = parse_args(s, ";");
+    args = parse_args(s, "; ");
     i = 0;
-    while(programs[i]){
+    while(args[i]){
       printf("%s\n",args[i]);
       programs = parse_args(args[i], " ");
       if(strcmp("exit", programs[0]) == 0){
