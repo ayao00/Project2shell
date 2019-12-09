@@ -26,6 +26,27 @@ char ** parse_args( char * line , char * separator){
   return parsed_args;
 }
 
+int run(char ** programs){
+  int f;
+  int status;
+  int child;
+  f = fork();
+  signal(SIGINT,sighandler);
+  if(f){
+    waitpid(f, &status, 0);
+    printf("Wait returned: %d status: %d return value: %d\n", child, status, WEXITSTATUS(status));
+    return 1;
+  }else{
+    if(execvp(programs[0], programs) < 0){
+      printf("Type exit to exit shell. Or type a command u bozo\n");
+    }
+    return 0;
+  }
+}
+
+void redirect(char * redirection){
+
+}
 int main(){
   signal(SIGINT,sighandler);
   char * currentdirectory = malloc(256);
@@ -57,11 +78,11 @@ int main(){
         }
       }
       else{
-        f = fork();
-        if(!f){
-          execvp(programs[0], programs);
-        }else{
-          waitpid(f, status, 0);
+        //if(strchr(programs[i],"<")||strchr(programs[i],">")){
+          //redirect(programs[i]);
+        //}
+        if (run(programs)  == 0){
+          return 0;
         }
       }
       i++;
