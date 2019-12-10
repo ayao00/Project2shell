@@ -10,7 +10,7 @@
 #include <sys/wait.h>
 
 static void sighandler(int signo){
-  printf("Type exit to exit shell. Or type a command u bozo\n");
+  printf("Type exit to exit shell. Or type a command.\n");
 }
 
 char ** parse_args( char * line , char * separator){
@@ -38,14 +38,14 @@ int run(char ** programs){
     return 1;
   }else{
     if(execvp(programs[0], programs) < 0){
-      printf("Type exit to exit shell. Or type a command u bozo\n");
+      printf("Type exit to exit shell. Or type a command.\n");
     }
     return 0;
   }
 }
 
 void redirect(char * redirection){
-
+  printf("REDIRECTED!!!!\n");
 }
 
 int main(){
@@ -65,24 +65,24 @@ int main(){
     args = parse_args(s, ";");
     i = 0;
     while(args[i]){
-      printf("%s\n",args[i]);
-      programs = parse_args(args[i], " ");
-      if(strcmp("exit", programs[0]) == 0){
+      if(strncmp("exit", args[i], 4) == 0){
         return 0;
       }
-      else if(strcmp("cd", programs[0])== 0){
-        if(programs[1]){
-          chdir(programs[1]);
-        }
-        else{
-          chdir("~");
-        }
+      else if(strchr(args[i],'<')||strchr(args[i],'>')){
+        redirect(args[i]);
       }
       else{
-        if(strchr(args[i],"<")||strchr(args[i],">")){
-          redirect(programs[i]);
+        printf("%s\n",args[i]);
+        programs = parse_args(args[i], " ");
+        if(strncmp("cd", programs[0], 2)== 0){
+          if(programs[1]){
+            chdir(programs[1]);
+          }
+          else{
+            chdir("~");
+          }
         }
-        if (run(programs)  == 0){
+        else if (run(programs)  == 0){
           return 0;
         }
       }
