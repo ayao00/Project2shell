@@ -38,7 +38,7 @@ int run(char ** programs){
     return 1;
   }else{
     if(execvp(programs[0], programs) < 0){
-      printf("Type exit to exit shell. Or type a command.\n");
+      printf("Type exit to exit shell. Or type a command u bozo\n");
     }
     return 0;
   }
@@ -47,6 +47,7 @@ int run(char ** programs){
 void redirect(char * redirection){
 
 }
+
 int main(){
   signal(SIGINT,sighandler);
   char * currentdirectory = malloc(256);
@@ -74,14 +75,13 @@ int main(){
           chdir(programs[1]);
         }
         else{
-          //this shit doesn't work rn.
           chdir("~");
         }
       }
       else{
-        //if(strchr(programs[i],"<")||strchr(programs[i],">")){
-          //redirect(programs[i]);
-        //}
+        if(strchr(args[i],"<")||strchr(args[i],">")){
+          redirect(programs[i]);
+        }
         if (run(programs)  == 0){
           return 0;
         }
