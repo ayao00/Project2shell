@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -27,36 +26,13 @@ char ** parse_args( char * line , char * separator){
   return parsed_args;
 }
 
-int run(char ** programs){
-  int f;
-  int status;
-  int child;
-  f = fork();
-  signal(SIGINT,sighandler);
-  if(f){
-    waitpid(f, &status, 0);
-    printf("Wait returned: %d status: %d return value: %d\n", child, status, WEXITSTATUS(status));
-    return 1;
-  }else{
-    if(execvp(programs[0], programs) < 0){
-      printf("Type exit to exit shell. Or type a command u bozo\n");
-    }
-    return 0;
-  }
-}
-
-void redirect(char * redirection){
-
-}
 int main(){
-  signal(SIGINT,sighandler);
   char * currentdirectory = malloc(256);
   char * s = malloc(256);
   char ** args;
   char ** programs;
   int f;
-  int * status;
-  int i;
+  int status, child, i;
   while(1){
     printf("%s",getcwd(currentdirectory, 256));
     printf("$ ");
@@ -75,14 +51,19 @@ int main(){
           chdir(programs[1]);
         }
         else{
-          chdir("~");
+          chdir("/usr");
         }
       }
       else{
-        //if(strchr(programs[i],"<")||strchr(programs[i],">")){
-          //redirect(programs[i]);
-        //}
-        if (run(programs)  == 0){
+        f = fork();
+        signal(SIGINT,sighandler);
+        if(f){
+          waitpid(f, &status, 0);
+          printf("Wait returned: %d status: %d return value: %d\n", child, status, WEXITSTATUS(status));
+        }else{
+          if (execvp(programs[0], programs) < 0){
+            printf("Type exit to exit shell. Or type a command u bozo\n");
+          }
           return 0;
         }
       }
@@ -91,5 +72,3 @@ int main(){
   }
   return 0;
 }
-=======
->>>>>>> fea543bd82be10e18b92e6abbf4aafe4bba954b3
