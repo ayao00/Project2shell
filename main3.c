@@ -79,6 +79,7 @@ int main(){
             chdir(programs[1]);
           }
           else{
+            //this still does not work btw
             chdir("~");
           }
         }
