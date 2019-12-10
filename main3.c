@@ -38,7 +38,7 @@ int run(char ** programs){
     return 1;
   }else{
     if(execvp(programs[0], programs) < 0){
-      printf("Type exit to exit shell. Or type a command u bozo\n");
+      printf("Type exit to exit shell. Or type a command.\n");
     }
     return 0;
   }
@@ -74,6 +74,7 @@ int main(){
           chdir(programs[1]);
         }
         else{
+          //this shit doesn't work rn.
           chdir("~");
         }
       }
