@@ -46,6 +46,7 @@ int run(char ** programs){
 
 void redirect(char * redirection){
   printf("REDIRECTED!!!!\n");
+  printf("%s\n", redirection);
 }
 
 int main(){
