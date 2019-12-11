@@ -69,6 +69,7 @@ char ** redirect(char * redirection){
     backup = dup(STDOUT_FILENO);
     dup2(fdnew, STDOUT_FILENO);
     redirectin = 1;
+    printf("sending it to the file.");
   }
   if(strchr(parsed[1],'|')){
     myPipe(parsed[1]);
@@ -119,7 +120,7 @@ int main(){
         if(strchr(current,'<') || strchr(current,'>')){
           programs = redirect(current);
         }
-        if (run(programs)  == 0){
+        if (run(programs) == 0){
           return 0;
         }
       }
