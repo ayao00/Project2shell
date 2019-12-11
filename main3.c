@@ -92,6 +92,7 @@ int main(){
   signal(SIGINT,sighandler);
   char * currentdirectory = malloc(256);
   char * s = malloc(256);
+  char * current = malloc(256);
   char ** args;
   char ** programs;
   int f;
@@ -105,7 +106,8 @@ int main(){
     args = parse_args(s, ";");
     i = 0;
     while(args[i]){
-      printf("%s\n",args[i]);
+      printf("(ENTIRE COMMAND:) %s\n", args[i]);
+      strcpy(current, args[i]);
       programs = parse_args(args[i], " ");
       if(strcmp("exit", programs[0]) == 0){
         return 0;
@@ -119,7 +121,7 @@ int main(){
         }
       }
       else{
-        if(strchr(args[i],'<')||strchr(args[i],'>')){
+        if(strchr(args[i],'<') || strchr(args[i],'>')){
           redirect(programs[i]);
         }
         if (run(programs)  == 0){
