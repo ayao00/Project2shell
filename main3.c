@@ -49,7 +49,7 @@ int run(char ** programs){
   }
 }
 
-int redirect(char * redirection){
+char ** redirect(char * redirection){
   printf("REDIRECTED!!! %s\n", redirection);
   int fdnew;
   char * s = malloc(256);
@@ -73,19 +73,14 @@ int redirect(char * redirection){
   if(strchr(parsed[1],'|')){
     myPipe(parsed[1]);
   }
-  else{
-    programs = parse_args(parsed[0], " ");
-    if(run(programs)==0){
-      return 0;
-    }
-  }
   if(redirectin){
     dup2(backup, STDOUT_FILENO);
   }
   else{
     dup2(backup, STDIN_FILENO);
   }
-  return 1;
+  programs = parse_args(parsed[0], " ");
+  return programs;
 }
 
 int main(){
@@ -122,7 +117,7 @@ int main(){
       }
       else{
         if(strchr(current,'<') || strchr(current,'>')){
-          redirect(current);
+          programs = redirect(current);
         }
         if (run(programs)  == 0){
           return 0;
