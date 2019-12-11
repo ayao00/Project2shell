@@ -119,7 +119,7 @@ int main(){
         }
       }
       else{
-        if(strchr(args[i],"<")||strchr(args[i],">")){
+        if(strchr(args[i],'<')||strchr(args[i],'>')){
           redirect(programs[i]);
         }
         if (run(programs)  == 0){
