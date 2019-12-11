@@ -45,6 +45,7 @@ int run(char ** programs){
   }
 }
 
+<<<<<<< HEAD
 int redirect(char * redirection){
   int fdnew;
   char * s = malloc(256);
@@ -85,6 +86,11 @@ int redirect(char * redirection){
 
 void myPipe(char * args){
 
+=======
+void redirect(char * redirection){
+  printf("REDIRECTED!!!!\n");
+  printf("%s\n", redirection);
+>>>>>>> 70617c9c90ef8f21e42d6e33d488d890a0e33b55
 }
 
 int main(){
