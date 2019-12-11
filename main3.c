@@ -46,7 +46,7 @@ int run(char ** programs){
 }
 
 int redirect(char * redirection){
-  printf("REDIRECTED!!! %s\N", redirection);
+  printf("REDIRECTED!!! %s\n", redirection);
   int fdnew;
   char * s = malloc(256);
   char ** parsed = malloc(256);
