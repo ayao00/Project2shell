@@ -39,7 +39,6 @@ int run(char ** programs){
   signal(SIGINT,sighandler);
   if(f){
     waitpid(f, &status, 0);
-    printf("Wait returned: %d status: %d return value: %d\n", child, status, WEXITSTATUS(status));
     return 1;
   }else{
     if(execvp(programs[0], programs) < 0){
@@ -64,12 +63,12 @@ char ** redirect(char * redirection){
       dup2(fdnew, STDIN_FILENO);
   }
   else{
+    printf("sending it to the file.\n");
     parsed = parse_args(redirection,">");
     fdnew = open(parsed[1], O_CREAT | O_WRONLY, 0664);
     backup = dup(STDOUT_FILENO);
     dup2(fdnew, STDOUT_FILENO);
     redirectin = 1;
-    printf("sending it to the file.");
   }
   if(strchr(parsed[1],'|')){
     myPipe(parsed[1]);
