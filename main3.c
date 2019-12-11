@@ -27,6 +27,10 @@ char ** parse_args( char * line , char * separator){
   return parsed_args;
 }
 
+void myPipe(char * args){
+
+}
+
 int run(char ** programs){
   int f;
   int status;
@@ -70,7 +74,7 @@ int redirect(char * redirection){
     myPipe(parsed[1]);
   }
   else{
-    programs = parse_args(parsed[0], ' ');
+    programs = parse_args(parsed[0], " ");
     if(run(programs)==0){
       return 0;
     }
@@ -82,10 +86,6 @@ int redirect(char * redirection){
     dup2(backup, STDIN_FILENO);
   }
   return 1;
-}
-
-void myPipe(char * args){
-
 }
 
 int main(){
