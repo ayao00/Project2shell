@@ -11,7 +11,7 @@
 #include <fcntl.h>
 
 static void sighandler(int signo){
-  printf("Type exit to exit shell. Or type a command u bozo\n");
+  printf("Type exit to exit shell. Or type a command.\n");
 }
 
 char ** parse_args( char * line , char * separator){
@@ -49,7 +49,7 @@ int run(char ** programs){
 }
 
 int redirect(char * redirection){
-  printf("REDIRECTED!!! %s\n", redirection);
+  //printf("REDIRECTED!!! %s\n", redirection);
   int fdnew;
   char * s = malloc(256);
   char ** parsed = malloc(256);
@@ -105,7 +105,7 @@ int main(){
     args = parse_args(s, ";");
     i = 0;
     while(args[i]){
-      printf("(ENTIRE COMMAND:) %s\n", args[i]);
+      //printf("(ENTIRE COMMAND:) %s\n", args[i]);
       strcpy(current, args[i]);
       programs = parse_args(args[i], " ");
       if(strcmp("exit", programs[0]) == 0){
