@@ -102,7 +102,7 @@ int main(){
   printf("\t-Separate commands with a single space in between words.\n");
   printf("\t-Hug every ; < >. Do not leave a space next to those symbols.\n");
   printf("\t-Limit piping to a single pipe.\n");
-  printf("Thanks!!\n");
+  printf("Thanks!!\n\n\n");
   while(1){
     printf("%s",getcwd(currentdirectory, 256));
     printf("$ ");
