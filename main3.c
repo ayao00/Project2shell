@@ -97,11 +97,11 @@ int main(){
   int i;
   int * status;
 
-  printf("This is the Alvin and Bernard shell!\n");
+  printf("\n\nThis is the Alvin and Bernard shell!\n");
   printf("Requirements:\n");
-  printf("\tSeparate commands with a single space in between words.\n");
-  printf("\tHug every ; < >. Do not leave a space next to those symbols.\n");
-  printf("\tLimit piping to a single pipe.\n");
+  printf("\t-Separate commands with a single space in between words.\n");
+  printf("\t-Hug every ; < >. Do not leave a space next to those symbols.\n");
+  printf("\t-Limit piping to a single pipe.\n");
   printf("Thanks!!\n");
   while(1){
     printf("%s",getcwd(currentdirectory, 256));
