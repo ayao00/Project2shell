@@ -122,9 +122,9 @@ int main(){
       }
       else{
         if(strchr(current,'<') || strchr(current,'>')){
-          redirect(programs[i]);
+          redirect(current);
         }
-        if (run(programs)  == 0){
+        else if (run(programs)  == 0){
           return 0;
         }
       }
