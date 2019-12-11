@@ -8,9 +8,10 @@
 #include <time.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <fcntl.h>
 
 static void sighandler(int signo){
-  printf("Type exit to exit shell. Or type a command.\n");
+  printf("Type exit to exit shell. Or type a command u bozo\n");
 }
 
 char ** parse_args( char * line , char * separator){
@@ -38,14 +39,52 @@ int run(char ** programs){
     return 1;
   }else{
     if(execvp(programs[0], programs) < 0){
-      printf("Type exit to exit shell. Or type a command.\n");
+      printf("Type exit to exit shell. Or type a command u bozo\n");
     }
     return 0;
   }
 }
 
-void redirect(char * redirection){
-  printf("REDIRECTED!!!!\n");
+int redirect(char * redirection){
+  int fdnew;
+  char * s = malloc(256);
+  char ** parsed = malloc(256);
+  char ** programs = malloc(256);
+  int redirectin = 0;
+  int backup;
+  if(strchr(redirection,'<')){
+      parsed = parse_args(redirection,"<");
+      fdnew = open(parsed[1], O_RDONLY, 0664);
+      backup = dup(STDIN_FILENO);
+      dup2(fdnew, STDIN_FILENO);
+  }
+  else{
+    parsed = parse_args(redirection,">");
+    fdnew = open(parsed[1], O_CREAT | O_WRONLY, 0664);
+    backup = dup(STDOUT_FILENO);
+    dup2(fdnew, STDOUT_FILENO);
+    redirectin = 1;
+  }
+  if(strchr(parsed[1],'|')){
+    myPipe(parsed[1]);
+  }
+  else{
+    programs = parse_args(parsed[0], ' ');
+    if(run(programs)==0){
+      return 0;
+    }
+  }
+  if(redirectin){
+    dup2(backup, STDOUT_FILENO);
+  }
+  else{
+    dup2(backup, STDIN_FILENO);
+  }
+  return 1;
+}
+
+void myPipe(char * args){
+
 }
 
 int main(){
@@ -65,25 +104,24 @@ int main(){
     args = parse_args(s, ";");
     i = 0;
     while(args[i]){
-      if(strncmp("exit", args[i], 4) == 0){
+      printf("%s\n",args[i]);
+      programs = parse_args(args[i], " ");
+      if(strcmp("exit", programs[0]) == 0){
         return 0;
       }
-      else if(strchr(args[i],'<')||strchr(args[i],'>')){
-        redirect(args[i]);
+      else if(strcmp("cd", programs[0])== 0){
+        if(programs[1]){
+          chdir(programs[1]);
+        }
+        else{
+          chdir("~");
+        }
       }
       else{
-        printf("%s\n",args[i]);
-        programs = parse_args(args[i], " ");
-        if(strncmp("cd", programs[0], 2)== 0){
-          if(programs[1]){
-            chdir(programs[1]);
-          }
-          else{
-            //this still does not work btw
-            chdir("~");
-          }
+        if(strchr(args[i],"<")||strchr(args[i],">")){
+          redirect(programs[i]);
         }
-        else if (run(programs)  == 0){
+        if (run(programs)  == 0){
           return 0;
         }
       }
