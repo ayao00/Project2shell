@@ -56,23 +56,21 @@ int redirect(char * redirection){
   char ** programs = malloc(256);
   int redirectin = 0;
   int backup;
-
-  //moved this piping part up.
-  if(strchr(parsed[1],'|')){
-    myPipe(parsed[1]);
-  }
   if(strchr(redirection,'<')){
       parsed = parse_args(redirection,"<");
       fdnew = open(parsed[1], O_RDONLY, 0664);
       backup = dup(STDIN_FILENO);
       dup2(fdnew, STDIN_FILENO);
   }
-  else if (strchr(redirection,'>')){
+  else{
     parsed = parse_args(redirection,">");
     fdnew = open(parsed[1], O_CREAT | O_WRONLY, 0664);
     backup = dup(STDOUT_FILENO);
     dup2(fdnew, STDOUT_FILENO);
     redirectin = 1;
+  }
+  if(strchr(parsed[1],'|')){
+    myPipe(parsed[1]);
   }
   else{
     programs = parse_args(parsed[0], " ");
