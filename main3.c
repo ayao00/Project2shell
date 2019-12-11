@@ -84,6 +84,7 @@ int redirect(char * redirection){
   else{
     dup2(backup, STDIN_FILENO);
   }
+  printf("we made it uh oh..");
   return 1;
 }
 
