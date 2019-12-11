@@ -94,9 +94,16 @@ int main(){
   char * current = malloc(256);
   char ** args;
   char ** programs;
-  int f;
-  int * status;
   int i;
+  int * status;
+
+
+  printf("This is the Alvin and Bernard shell!\n");
+  printf("Requirements:\n");
+  printf("\tSeparate commands with a single space in between words.\n");
+  printf("\tHug every ; < >. Do not leave a space next to those symbols.\n");
+  printf("\tLimit piping to a single pipe.\n");
+  printf("Thanks!!\n");
   while(1){
     printf("%s",getcwd(currentdirectory, 256));
     printf("$ ");
