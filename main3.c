@@ -39,6 +39,7 @@ int run(char ** programs){
   signal(SIGINT,sighandler);
   if(f){
     waitpid(f, &status, 0);
+    printf("Wait returned: %d status: %d return value: %d\n", child, status, WEXITSTATUS(status));
     return 1;
   }else{
     if(execvp(programs[0], programs) < 0){
@@ -48,7 +49,7 @@ int run(char ** programs){
   }
 }
 
-char ** redirect(char * redirection){
+int redirect(char * redirection){
   printf("REDIRECTED!!! %s\n", redirection);
   int fdnew;
   char * s = malloc(256);
@@ -63,7 +64,6 @@ char ** redirect(char * redirection){
       dup2(fdnew, STDIN_FILENO);
   }
   else{
-    printf("sending it to the file.\n");
     parsed = parse_args(redirection,">");
     fdnew = open(parsed[1], O_CREAT | O_WRONLY, 0664);
     backup = dup(STDOUT_FILENO);
@@ -73,14 +73,19 @@ char ** redirect(char * redirection){
   if(strchr(parsed[1],'|')){
     myPipe(parsed[1]);
   }
+  else{
+    programs = parse_args(parsed[0], " ");
+    if(run(programs)==0){
+      return 0;
+    }
+  }
   if(redirectin){
     dup2(backup, STDOUT_FILENO);
   }
   else{
     dup2(backup, STDIN_FILENO);
   }
-  programs = parse_args(parsed[0], " ");
-  return programs;
+  return 1;
 }
 
 int main(){
@@ -117,9 +122,9 @@ int main(){
       }
       else{
         if(strchr(current,'<') || strchr(current,'>')){
-          programs = redirect(current);
+          redirect(current);
         }
-        if (run(programs) == 0){
+        else if (run(programs)  == 0){
           return 0;
         }
       }
