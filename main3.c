@@ -97,7 +97,6 @@ int main(){
   int i;
   int * status;
 
-
   printf("This is the Alvin and Bernard shell!\n");
   printf("Requirements:\n");
   printf("\tSeparate commands with a single space in between words.\n");
