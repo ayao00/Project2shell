@@ -39,7 +39,6 @@ int run(char ** programs){
   signal(SIGINT,sighandler);
   if(f){
     waitpid(f, &status, 0);
-    printf("Wait returned: %d status: %d return value: %d\n", child, status, WEXITSTATUS(status));
     return 1;
   }else{
     if(execvp(programs[0], programs) < 0){
