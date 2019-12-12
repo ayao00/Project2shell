@@ -1,9 +1,0 @@
-total 36
--rwxr-xr-x 1 bwang00 student 13192 Dec 10 10:49 a.out
--rw-r--r-- 1 bwang00 student     0 Dec 10 10:57 bob.txt
--rw-r--r-- 1 bwang00 student  1756 Dec  9 11:09 main1.9.c
--rw-r--r-- 1 bwang00 student  2079 Dec 10 09:43 main2.c
--rw-r--r-- 1 bwang00 student  2106 Dec 10 10:53 main3.c
--rw-r--r-- 1 bwang00 student  1445 Dec  8 12:32 main.c
--rw-r--r-- 1 bwang00 student     0 Dec  4 10:23 makefile
--rw-r--r-- 1 bwang00 student    15 Dec  3 10:42 README.md
