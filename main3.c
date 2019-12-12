@@ -128,7 +128,9 @@ int main(){
       }
       else{
         if(strchr(current,'<') || strchr(current,'>')){
-          redirect(current);
+          if (redirect(current) == 0){
+            return 0;
+          }
         }
         else if (run(programs)  == 0){
           return 0;
