@@ -10,6 +10,7 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 
+//fix this
 static void sighandler(int signo){
   printf("Type exit to exit shell. Or type a command.\n");
 }
@@ -36,11 +37,12 @@ int run(char ** programs){
   int status;
   int child;
   f = fork();
-  signal(SIGINT,sighandler);
   if(f){
     waitpid(f, &status, 0);
     return 1;
   }else{
+    //right now the signalhandler shit is useless lol. maybe take out the if statement?
+    signal(SIGINT,sighandler);
     if(execvp(programs[0], programs) < 0){
       printf("Type exit to exit shell. Or type a command u bozo\n");
     }
@@ -69,6 +71,7 @@ int redirect(char * redirection){
     dup2(fdnew, STDOUT_FILENO);
     redirectin = 1;
   }
+  //okie i have no idea whaat this is doing ngl so we gotta finish this
   if(strchr(parsed[1],'|')){
     myPipe(parsed[1]);
   }
