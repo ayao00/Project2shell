@@ -14,7 +14,6 @@
 static void sighandler(int signo){
   printf("Type exit to exit shell. Or type a command.\n");
 }
-
 char ** parse_args( char * line , char * separator){
   char ** parsed_args = malloc(256);
   char * current;
@@ -27,16 +26,12 @@ char ** parse_args( char * line , char * separator){
   //when you have all the pieces, return the array of pieces.
   return parsed_args;
 }
-
-void myPipe(char * args){
-
-}
-
 int run(char ** programs){
   int f;
   int status;
   int child;
   f = fork();
+  signal(SIGINT,sighandler);
   if(f){
     waitpid(f, &status, 0);
     return 1;
@@ -49,7 +44,33 @@ int run(char ** programs){
     return 0;
   }
 }
+int myPipe(char * args){
+  char ** parsed = parse_args(args, "|");
+  char ** read = parse_args(parsed[0], " ");
+  char ** write = parse_args(parsed[1], " ");
 
+  int fds[2];
+
+  pipe(fds);
+  char line[100];
+
+  int f = fork();
+  if(f){
+    close(fds[1]);
+    int backup = dup(STDIN_FILENO);
+    dup2(fds[0], STDIN_FILENO);
+    run(write);
+    dup2(backup, STDIN_FILENO);
+  }
+  else{
+    close(fds[0]);
+    int backup = dup(STDOUT_FILENO);
+    dup2(fds[1], STDOUT_FILENO);
+    run(read);
+    dup2(backup, STDOUT_FILENO);
+  }
+  return 0;
+}
 int redirect(char * redirection){
   //printf("REDIRECTED!!! %s\n", redirection);
   int fdnew;
@@ -89,7 +110,6 @@ int redirect(char * redirection){
   }
   return 1;
 }
-
 int main(){
   signal(SIGINT,sighandler);
   char * currentdirectory = malloc(256);
@@ -99,7 +119,6 @@ int main(){
   char ** programs;
   int i;
   int * status;
-
   printf("\n\nThis is the Alvin and Bernard shell!\n");
   printf("Requirements:\n");
   printf("\t-Separate commands with a single space in between words.\n");
@@ -131,6 +150,11 @@ int main(){
       else{
         if(strchr(current,'<') || strchr(current,'>')){
           if (redirect(current) == 0){
+            return 0;
+          }
+        }
+        else if(strchr(current,'|')){
+          if(myPipe(current) == 0){
             return 0;
           }
         }
