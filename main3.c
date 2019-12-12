@@ -44,6 +44,7 @@ int run(char ** programs){
     return 0;
   }
 }
+
 int myPipe(char * args){
   char ** parsed = parse_args(args, "|");
   char ** read = parse_args(parsed[0], " ");
@@ -71,6 +72,7 @@ int myPipe(char * args){
   }
   return 0;
 }
+
 int redirect(char * redirection){
   //printf("REDIRECTED!!! %s\n", redirection);
   int fdnew;
