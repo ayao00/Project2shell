@@ -9,17 +9,39 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <fcntl.h>
+#include <ctype.h>
 
 //fix this
 static void sighandler(int signo){
   printf("Type exit to exit shell. Or type a command.\n");
 }
+
+void trim(char * input){
+  char * last;
+  int index = 0;
+  int i = 0;
+  while(isspace(input[index])){
+    index++;
+  }
+  while(input[i + index] != '\0'){
+    input[i] = input[i+index];
+    i++;
+  }
+  input[i] = '\0';
+  last = input + strlen(input) - 1;
+  while(last > input && isspace(*last)){
+    last--;
+  }
+  *(last+1) = 0;
+}
+
 char ** parse_args( char * line , char * separator){
   char ** parsed_args = malloc(256);
   char * current;
   int i = 0;
   //while you can continue to strsep, continue to strsep.
   while((current = strsep(&line, separator))){
+    trim(current);
     parsed_args[i] = current;
     i++;
   }
@@ -57,20 +79,21 @@ int myPipe(char * args){
 
   int f = fork();
   if(f){
-    close(fds[1]);
-    int backup = dup(STDIN_FILENO);
-    dup2(fds[0], STDIN_FILENO);
-    run(write);
-    dup2(backup, STDIN_FILENO);
-  }
-  else{
     close(fds[0]);
     int backup = dup(STDOUT_FILENO);
     dup2(fds[1], STDOUT_FILENO);
     run(read);
     dup2(backup, STDOUT_FILENO);
   }
-  return 0;
+  else{
+    close(fds[1]);
+    int backup = dup(STDIN_FILENO);
+    dup2(fds[0], STDIN_FILENO);
+    run(write);
+    dup2(backup, STDIN_FILENO);
+    return 0;
+  }
+  return 1;
 }
 
 int redirect(char * redirection){
