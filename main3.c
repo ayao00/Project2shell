@@ -20,6 +20,7 @@ void trim(char * input){
   char * last;
   int index = 0;
   int i = 0;
+  // trims off the leading whitespaces
   while(isspace(input[index])){
     index++;
   }
@@ -28,6 +29,7 @@ void trim(char * input){
     i++;
   }
   input[i] = '\0';
+  //trims off the trailing whitespaces
   last = input + strlen(input) - 1;
   while(last > input && isspace(*last)){
     last--;
@@ -36,6 +38,7 @@ void trim(char * input){
 }
 
 char ** parse_args( char * line , char * separator){
+  //This function separates a line with a provided separator
   char ** parsed_args = malloc(256);
   char * current;
   int i = 0;
@@ -48,7 +51,9 @@ char ** parse_args( char * line , char * separator){
   //when you have all the pieces, return the array of pieces.
   return parsed_args;
 }
+
 int run(char ** programs){
+  //  Forks the following programs and then execvp within the shell as the parent waits
   int f;
   int status;
   int child;
@@ -68,6 +73,7 @@ int run(char ** programs){
 }
 
 int myPipe(char * args){
+  //pipes the following args
   char ** parsed = parse_args(args, "|");
   char ** read = parse_args(parsed[0], " ");
   char ** write = parse_args(parsed[1], " ");
@@ -97,7 +103,7 @@ int myPipe(char * args){
 }
 
 int redirect(char * redirection){
-  //printf("REDIRECTED!!! %s\n", redirection);
+  // redirects the user input for both direction.
   int fdnew;
   char * s = malloc(256);
   char ** parsed = malloc(256);
@@ -135,6 +141,7 @@ int redirect(char * redirection){
   }
   return 1;
 }
+
 int main(){
   signal(SIGINT,sighandler);
   char * currentdirectory = malloc(256);
