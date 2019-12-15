@@ -10,12 +10,10 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 #include <ctype.h>
-
 //fix this
 static void sighandler(int signo){
   printf("Type exit to exit shell. Or type a command.\n");
 }
-
 void trim(char * input){
   char * last;
   int index = 0;
@@ -43,8 +41,8 @@ char ** parse_args( char * line , char * separator){
   char * current;
   int i = 0;
   //while you can continue to strsep, continue to strsep.
-  trim(line);
   while((current = strsep(&line, separator))){
+    trim(current);
     parsed_args[i] = current;
     i++;
   }
@@ -77,12 +75,9 @@ int myPipe(char * args){
   char ** parsed = parse_args(args, "|");
   char ** read = parse_args(parsed[0], " ");
   char ** write = parse_args(parsed[1], " ");
-
   int fds[2];
-
   pipe(fds);
   char line[100];
-
   int f = fork();
   if(f){
     close(fds[0]);
@@ -103,6 +98,7 @@ int myPipe(char * args){
 }
 
 int redirect(char * redirection){
+  //printf("REDIRECTED!!! %s\n", redirection);
   // redirects the user input for both direction.
   int fdnew;
   char * s = malloc(256);
@@ -123,6 +119,7 @@ int redirect(char * redirection){
     dup2(fdnew, STDOUT_FILENO);
     redirectin = 1;
   }
+  //okie i have no idea whaat this is doing ngl so we gotta finish this
   if(strchr(parsed[1],'|')){
     myPipe(parsed[1]);
   }
