@@ -79,6 +79,7 @@ int myPipe(char * args){
   char ** write = parse_args(parsed[1], " ");
 
   int fds[2];
+  int status;
 
   pipe(fds);
   char line[100];
