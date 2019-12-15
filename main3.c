@@ -186,9 +186,7 @@ int main(){
           }
         }
         else if(strchr(current,'|')){
-          if(myPipe(current) == 0){
-            return 0;
-          }
+          myPipe(current);
         }
         else if (run(programs)  == 0){
           return 0;
