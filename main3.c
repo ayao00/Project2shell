@@ -42,8 +42,8 @@ char ** parse_args( char * line , char * separator){
   char ** parsed_args = malloc(256);
   char * current;
   int i = 0;
-  //while you can continue to strsep, continue to strsep.
   trim(line);
+  //while you can continue to strsep, continue to strsep.
   while((current = strsep(&line, separator))){
     parsed_args[i] = current;
     i++;
@@ -85,11 +85,13 @@ int myPipe(char * args){
 
   int f = fork();
   if(f){
+    waitpid(f, &status,0);
     close(fds[0]);
     int backup = dup(STDOUT_FILENO);
     dup2(fds[1], STDOUT_FILENO);
     run(read);
     dup2(backup, STDOUT_FILENO);
+    return 1;
   }
   else{
     close(fds[1]);
@@ -99,7 +101,6 @@ int myPipe(char * args){
     dup2(backup, STDIN_FILENO);
     return 0;
   }
-  return 1;
 }
 
 int redirect(char * redirection){
