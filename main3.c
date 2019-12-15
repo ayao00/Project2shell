@@ -79,14 +79,12 @@ int myPipe(char * args){
   char ** write = parse_args(parsed[1], " ");
 
   int fds[2];
-  int status;
 
   pipe(fds);
   char line[100];
 
   int f = fork();
   if(f){
-    waitpid(f, &status,0);
     close(fds[0]);
     int backup = dup(STDOUT_FILENO);
     dup2(fds[1], STDOUT_FILENO);
@@ -126,7 +124,9 @@ int redirect(char * redirection){
     redirectin = 1;
   }
   if(strchr(parsed[1],'|')){
-    myPipe(parsed[1]);
+    if(myPipe(parsed[1]) == 0){
+      return 0;
+    }
   }
   else{
     programs = parse_args(parsed[0], " ");
