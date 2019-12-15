@@ -90,6 +90,7 @@ int myPipe(char * args){
     dup2(fds[1], STDOUT_FILENO);
     run(read);
     dup2(backup, STDOUT_FILENO);
+    return 1;
   }
   else{
     close(fds[1]);
@@ -97,8 +98,8 @@ int myPipe(char * args){
     dup2(fds[0], STDIN_FILENO);
     run(write);
     dup2(backup, STDIN_FILENO);
+    return 0;
   }
-  return 1;
 }
 
 int redirect(char * redirection){
@@ -186,7 +187,9 @@ int main(){
           }
         }
         else if(strchr(current,'|')){
-          myPipe(current);
+          if(myPipe(current) == 0){
+            return 0;
+          }
         }
         else if (run(programs)  == 0){
           return 0;
