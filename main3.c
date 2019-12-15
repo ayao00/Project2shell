@@ -97,7 +97,6 @@ int myPipe(char * args){
     dup2(fds[0], STDIN_FILENO);
     run(write);
     dup2(backup, STDIN_FILENO);
-    return 0;
   }
   return 0;
 }
