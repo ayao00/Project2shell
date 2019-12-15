@@ -98,7 +98,7 @@ int myPipe(char * args){
     run(write);
     dup2(backup, STDIN_FILENO);
   }
-  return 0;
+  return 1;
 }
 
 int redirect(char * redirection){
