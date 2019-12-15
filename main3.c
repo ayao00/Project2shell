@@ -43,8 +43,8 @@ char ** parse_args( char * line , char * separator){
   char * current;
   int i = 0;
   //while you can continue to strsep, continue to strsep.
+  trim(line);
   while((current = strsep(&line, separator))){
-    trim(current);
     parsed_args[i] = current;
     i++;
   }
@@ -123,7 +123,6 @@ int redirect(char * redirection){
     dup2(fdnew, STDOUT_FILENO);
     redirectin = 1;
   }
-  //okie i have no idea whaat this is doing ngl so we gotta finish this
   if(strchr(parsed[1],'|')){
     myPipe(parsed[1]);
   }
