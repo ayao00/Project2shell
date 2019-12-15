@@ -90,7 +90,6 @@ int myPipe(char * args){
     dup2(fds[1], STDOUT_FILENO);
     run(read);
     dup2(backup, STDOUT_FILENO);
-    return 1;
   }
   else{
     close(fds[1]);
@@ -100,6 +99,7 @@ int myPipe(char * args){
     dup2(backup, STDIN_FILENO);
     return 0;
   }
+  return 0;
 }
 
 int redirect(char * redirection){
