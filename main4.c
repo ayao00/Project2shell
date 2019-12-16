@@ -150,7 +150,11 @@ int main(){
   printf("\n\nThis is the Alvin and Bernard shell!\n");
   printf("Requirements:\n");
   printf("\t-Separate commands with a single space in between words.\n");
+<<<<<<< HEAD
   printf("\t-Limit piping to a single pipe.\n");
+=======
+  printf("\t-Avoid double redirection.\n");
+>>>>>>> 7d77060a520674601aed27eb44ce326e71fa59d8
   printf("Thanks!!\n\n\n");
   while(1){
     printf("%s",getcwd(currentdirectory, 256));

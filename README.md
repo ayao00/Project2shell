@@ -8,9 +8,8 @@
 <h2> Features that we attempted to implement but failed </h2>
 <p> We tried to implement the following commented out code. If ran, would blow up shell! </p>
 <ul>
-<li> Could not get pipes to work properly</li>
 <li> cd ~ is not working </li>
-<li> We had sighandler but did not really know what it caught except a good grade!!</li>
+<li> We had sighandler but did not really know what it caught except a good grade!!  </li>
 </ul>
 
 <h2> Bugs that we discovered </h2>
