@@ -3,7 +3,7 @@
 <h2> Features that we implemented </h2>
 <p> Forks and executes commands!!</p>
 <p> Parses multiple commands on one line!!</p>
-<p> Redirects using > and <!!</p>
+<p> Redirects using > and < !! </p>
 
 <h2> Features that we attempted to implement but failed </h2>
 <p> We tried to implement the following commented out code. If ran, would blow up shell! </p>
