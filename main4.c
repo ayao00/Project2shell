@@ -10,10 +10,11 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 #include <ctype.h>
-//fix this
+
 static void sighandler(int signo){
   printf("Type exit to exit shell. Or type a command.\n");
 }
+
 void trim(char * input){
   char * last;
   int index = 0;
@@ -61,7 +62,6 @@ int run(char ** programs){
     waitpid(f, &status, 0);
     return 1;
   }else{
-    //right now the signalhandler shit is useless lol. maybe take out the if statement?
     signal(SIGINT,sighandler);
     if(execvp(programs[0], programs) < 0){
       printf("Type exit to exit shell. Or type a command u bozo\n");
@@ -71,34 +71,35 @@ int run(char ** programs){
 }
 
 int myPipe(char * args){
-  //pipes the following args
   char ** parsed = parse_args(args, "|");
   char ** read = parse_args(parsed[0], " ");
   char ** write = parse_args(parsed[1], " ");
+
   int fds[2];
+
   pipe(fds);
   char line[100];
+
   int f = fork();
   if(f){
-    close(fds[0]);
-    int backup = dup(STDOUT_FILENO);
-    dup2(fds[1], STDOUT_FILENO);
-    run(read);
-    dup2(backup, STDOUT_FILENO);
-  }
-  else{
     close(fds[1]);
     int backup = dup(STDIN_FILENO);
     dup2(fds[0], STDIN_FILENO);
     run(write);
     dup2(backup, STDIN_FILENO);
+    return 1;
+  }
+  else{
+    close(fds[0]);
+    int backup = dup(STDOUT_FILENO);
+    dup2(fds[1], STDOUT_FILENO);
+    run(read);
+    dup2(backup, STDOUT_FILENO);
     return 0;
   }
-  return 1;
 }
 
 int redirect(char * redirection){
-  //printf("REDIRECTED!!! %s\n", redirection);
   // redirects the user input for both direction.
   int fdnew;
   char * s = malloc(256);
@@ -119,7 +120,6 @@ int redirect(char * redirection){
     dup2(fdnew, STDOUT_FILENO);
     redirectin = 1;
   }
-  //okie i have no idea whaat this is doing ngl so we gotta finish this
   if(strchr(parsed[1],'|')){
     myPipe(parsed[1]);
   }
@@ -161,7 +161,6 @@ int main(){
     args = parse_args(s, ";");
     i = 0;
     while(args[i]){
-      //printf("(ENTIRE COMMAND:) %s\n", args[i]);
       strcpy(current, args[i]);
       programs = parse_args(args[i], " ");
       if(strcmp("exit", programs[0]) == 0){
