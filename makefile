@@ -1,7 +1,7 @@
-all: main3.o
-	gcc -o program main3.o
-main3.o: main3.c
-	gcc -c main3.c
+all: main4.o
+	gcc -o program main4.o
+main4.o: main4.c
+	gcc -c main4.c
 run:
 	./program
 clean:
